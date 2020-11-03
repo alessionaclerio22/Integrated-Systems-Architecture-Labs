@@ -35,7 +35,7 @@ xq(idx)=2^(nb-1)-1;
 yq=floor(y*2^(nb-1));
 idy=find(yq==2^(nb-1));
 yq(idy)=2^(nb-1)-1;
-
+thd(yq)
 %% save input and output
 fp=fopen('samples.txt','w');
 fprintf(fp,'%d\n', xq);

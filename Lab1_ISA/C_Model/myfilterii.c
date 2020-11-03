@@ -2,11 +2,11 @@
 #include<stdlib.h>
 
 #define N 2 /// order of the filter 
-#define NB 8  /// number of bits
+#define NB 9  /// number of bits
 
-const int b0 = 8; /// coefficient b0
-const int b[N]={17, 8}; /// b array
-const int a[N]={-147, 52}; /// a array
+const int b0 = 52; /// coefficient b0
+const int b[N]={105, 52}; /// b array
+const int a[N]={-95, 50}; /// a array
 
 /// Perform fixed point filtering assuming direct form II
 ///\param x is the new input sample
@@ -78,7 +78,7 @@ int main (int argc, char **argv)
   fscanf(fp_in, "%d", &x);
   do{
     y = myfilter(x);
-    fprintf(fp_out,"%d\n", y);
+    fprintf(fp_out,"%d, ", y);
     fscanf(fp_in, "%d", &x);
   } while (!feof(fp_in));
 
