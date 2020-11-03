@@ -2,5 +2,6 @@
 
 Works carried out by those handsome guys:
 ## Di Blasi Simone
-## Floridia Stefano <3
+## Floridia Stefano
 ## Nalcerio Alessio
+
