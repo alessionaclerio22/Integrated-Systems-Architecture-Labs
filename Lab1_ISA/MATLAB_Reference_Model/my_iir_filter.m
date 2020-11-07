@@ -1,4 +1,4 @@
-fs=10000 %% sampling frequency
+fs=10000; %% sampling frequency
 f1=500;  %% first sinewave freq (in band)
 f2=4500; %% second sinnewave freq (out band)
 
@@ -13,7 +13,7 @@ x2=sin(2*pi*f2*tt); %% second sinewave
 
 x=(x1+x2)/2; %% input signal
 
-[bi, ai, bq, aq]=myiir_design(N, nb) %% filter design
+[bi, ai, bq, aq]=myiir_design(N, nb); %% filter design
 
 y=filter(bq, aq, x); %% apply filter
 
