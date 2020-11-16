@@ -1,0 +1,179 @@
+\section{Look Ahead IIR Filter VLSI implementation}
+The aim of this part of the laboratory has been to develop, simulate, synthesize, place and route a second order, 9-bit IIR filter modified with the look-ahead technique. Power estimation based on post-synthesis and post place and route switching-activity has been carried out. The project has been organized in folders as suggested.
+\subsection{Architecture Development}
+\subsubsection{Design Description}
+% description of the filter circuit with drawing
+Starting from the basic IIR filter, the J-look-ahead technique (with J = 1) has been applied. The main benefit of this modification on the circuit is that other universal techniques can be implemented in the resulting netlist, thus enhancing performance. In this case, pipeline registers have been introduced. This causes the creation of pipeline stages with the great advantage of controlling the delay of a path between two registers. Thanks to this modification, it is possible to reach a condition in which the \textbf{critical path delay $T_{cp}$} is equal to the \textbf{loop iteration $T_{\infty}$}.
+\newline
+\newline
+The starting point for the application of the look-ahead technique is the direct form II initial equation for the IIR filter, which is reported here:
+
+\begin{center}
+$y[n] = b_{0}w[n] + b_{1}w[n-1] + b_{2}w[n-2]$
+\end{center}
+
+where:
+
+\begin{center}
+$w[n] = x[n] + a_{1}w[n-1] + a_{2}w[n-2]$
+\end{center}
+
+Then, the formula has to be written for $y[n+1]$:
+
+\begin{center}
+$y[n+1] = b_{0}w[n+1] + b_{1}w[n] + b_{2}w[n-1]$
+\end{center}
+
+At this point, $w[n]$ has to be substituted in the equation above:
+
+\begin{center}
+$y[n+1] = b_{0}w[n+1] + b_{1}(x[n] + a_{1}w[n-1] + a_{2}w[n-2]) + b_{2}w[n-1]$
+\end{center}
+
+Going back to $y[n]$: 
+
+\begin{center}
+$y[n] = b_{0}w[n] + b_{1}(x[n-1] + a_{1}w[n-2] + a_{2}w[n-3]) + b_{2}w[n-2]$
+\end{center}
+
+\bigskip
+The last equation could be expressed in another form, where $b_{1}$ explicitly multiplies the operands inside the parenthesis, that is to say:
+
+\begin{center}
+$y[n] = b_{0}w[n] + b_{1}x[n-1] + a_{1}b_{1}w[n-2] + a_{2}b_{1}w[n-3] + b_{2}w[n-2]$
+\end{center}
+
+\bigskip
+New coefficients have been created, such as $a_{1}b_{1}$ and $a_{2}b_{1}$. As for the VHDL implementation, the first formula has been adopted. This choice allows a more precise calculation of the output, but it also results in a greater area, due to a further multiplier to be inserted. The latter equation, would have been more convenient from the point of view of area minimization, but not as good as the first one regardin precision.
+\newline
+\newline
+after applying the modifications induced by the look-ahead technique, it is possible to observe that the feedback network has not been changed: on the other hand, the feedforward one has been replaced according to the derived equation. This has caused an inevitable increasing in area occupation, with the addition of 2 multipliers, 1 adder and 1 subtractor with respect to the basic implementation. Moreover, two new registers have been introduced, one delaying the input $x[n]$ in order to create $x[n-1]$, and another providing $w[n-3]$ from $w[n-2]$. These two sequential elements are depicted in green in figure 3.1.
+\newline
+\newline
+Along with the increased area, a new critical path has been created by applying this technique, which is the one going from the register providing $sw[2]$ to the output register. For this reason, pipelining has been adopted as a solution. Thus, a 4-stage pipelined architecture has been derived in order to reach the best performances. This final implementation has allowed to obtain a path's delay between two sequential elements which is lower or equal to the iteration bound $T_{\infty}$.
+This last parameter is defined as the maximum among the loop bound and in this case is :
+
+\begin{center}
+$T_{\infty} = \frac{2T_{mult} + T_{sub}}{1} = 2T_{mult} + T_{sub}$
+\end{center}
+
+\bigskip
+Without pipelining, the critical path delay would be much greater than the iteration bound, and this means that there can be optimizations to be applied. After pipelining the netlist, it can be observed that a path's delay between two registers is never greater than the iteration bound, so no further modifications are feasible.
+\newline
+\newline
+As regards the rest of the circuit, an input and an output one have been exploited to store both $DIN$ and $DOUT$. Moreover, a simple control unit has been designed in order to make the pipeline work properly. It uses delayed versions of the input $VIN$ as enable signals to the pipeline registers. If they are asserted (equal to '1'), the sequential elements provide in output what they have in input, otherwise they give the previous values as outputs. This means that, if an input arrives and $VIN$ is '0', a sort of stall is introduced in the pipeline and $DIN$ is not processed.
+
+\subsubsection{First Design Simulation}
+% simulation description, scripts and comments
+After designing the architecture, a ModelSim simulation has been carried out. Files uploaded on Portale della Didattica, such as $"data\_maker\_new.vhd"$, $"data\_sink.vhd"$, $"clk\_gen.vhd"$ and $"tb\_fir.v"$, have been modified according to our architecture and exploited. They are all contained in the folder named $tb$. Moreover, following the indications written in $"Documents.pdf"$, two scripts have been prepared in order to make the process faster and adaptable to other eventual designs. These scripts are $"compile.sh"$, to be run in a terminal inside the $sim$ folder, and $"run.do"$, to be run in the ModelSim shell after it opens up. The first one has allowed compiling the $.vhd$ and $.v$ files, as well as initializing the simulation. The latter scripts is very simple and it has been used to add signals to the wave panel and run the simulation for 3\si{\micro\second}.
+A similar approach has been used also for post-synthesis and post-routing simulation for switching activity.
+\newline
+\newline
+At the end of the simulation, the file $"results.txt"$ has been compared to the one generated by the C model implementation, $"output.txt"$, with the Linux shell command $"diff"$. No differences have been reported, which is exactly what it had been expected, since the chosen implementation could allow a better precision.
+\newline
+\newline
+In order to have a better view on how the circuit works, the waveforms panel have been observed. When $DIN$ is provided alongside with $VIN$, it is considered as a valid input and it will be provided to the internal datapath by the output of the initial register. Then, the four delayed replicas of $VIN$ ($Vin\_delayed\_1$, $Vin\_delayed\_2$, $Vin\_delayed\_3$ and $Vin\_delayed\_4$) are set to '1' in their respective clock cycle in order to make both the shifting registers and the pipeline work properly. After these phases, the output $DOUT$ is provided at the output asserting $VOUT$. From the clock cycle in which the input is provided and the one $DOUT$ is given, 4 additional clock cycles are present. Thus, there are 3 more clock cycles with respect to the basic IIR Filter implementation. However, once the pipeline is full, one output at each period is produced.
+\newline
+\newline
+On the other hand, if $VIN$ is equal to zero when a certain input is provided, none of its internal replicas are activated in the next clock cycles. This causes a stall in the pipeline and in the shifting and the output will be a random one with $VOUT$ not asserted, which means it is not a valid one.
+\subsection{Logic Synthesis}
+After the first design simulation phase, Synopsys Design Compiler has been exploited in order to carry out the logic synthesis. The folder used to perform the following operations has been named $syn$. After this first part, a switching-activity-based power estimation has been carried out.
+\subsubsection{Synthesis using Synopsys Design Compiler}
+% Max frequency with slack = 0
+% area max frequency
+% fM/4 design and verification, area and power consumption with modelsim
+% comments
+In the above mentioned folder, Synopsys Design Compiler has been launched. Indications on how to setup this phase have been taken from the file $"Documents.pdf"$ and they have been used to create some $.tcl$ scripts. 
+\newline
+\newline
+The first goal of this part is to obtain the minimum clock period for the architecture. In order to do this, the synthesis must be performed multiple times, each time deleting previous synthesis files and changing the clock constraint. For this purpose, the script $"syn.tcl"$ has been run multiple times, each time adding the slack reported by the command $"report\_timing"$ to the previous clock period value, until a null slack has been obtained. 
+\newline
+\newline
+After few iterations, a clock period of 2.21\si{\nano\second} has been achieved. Always with this synthesis, an area report has been generated using the script $"post\_syn.tcl"$, which contains a small procedure that can take a string as input and set the file name according to this parameter.
+Looking at the generated file, $"area\_reportfM.txt"$, the various contributions to the total area have been observed:
+
+
+\begin{itemize}
+\item Combinational area:               2965.102004 $\mu m^{2}$
+\item Buf/Inv area:                      184.870000 $\mu m^{2}$
+\item Noncombinational area:             833.378024 $\mu m^{2}$
+\item Total cell area:                  3798.480028 $\mu m^{2}$
+\end{itemize}
+
+Then, the file $"syn.tcl"$ has been modified in order to synthesize the same circuit with a clock contraint equale to four times the one used before. Thus, the clock period has been set to 8.84\si{\nano\second} and the synthesis has been run. Also in this case, an area report has been generated ($"area\_reportfM\_4.txt"$) and it shows the following characteristics:
+
+\begin{itemize}
+\item Combinational area:               2781.030011 $\mu m^{2}$
+\item Buf/Inv area:                      173.166000 $\mu m^{2}$
+\item Noncombinational area:             833.378024 $\mu m^{2}$
+\item Total cell area:                  3614.408035 $\mu m^{2}$
+\end{itemize}
+
+It can be observed that the second synthesis' total area is lower than the first one. In particular, while the noncombinational area is the same in both, the combinational one is the contribute that changes the most. This is probably related to the less strict contraint on the clock period, which allows mapping the operations on smaller blocks.
+\newline
+\newline
+At the end of this phase, files useful for the switching acticity estimation have been produced. For this purpose, the same script $"post\_syn.tcl"$ has been used in order to generate $IIR\_FILTER\_ADVANCED.sdc$, $IIR\_FILTER\_ADVANCED.sdf$ and $IIR\_FILTER\_ADVANCED.v$. These files have been put in the $netlist$ folder and have been exploited in the next steps. As regards the script, it has been run only once producing both the area report and the already mentioned files.
+\subsubsection{Post-synthesis switching-activity-based power consumption estimation}
+This phase aims both at verifying that the post synthesis circuit behaves as the one designed and at evaluating the switching activity, which will be used for the power consuption estimation by Synopsys Design Compiler.
+\newline
+\newline
+First of all, a ModelSim simulation has been carried out by means of scripts in the folder $sim$, which have created with the indications reported in the file $"Documents.pdf"$. The first one to be run inside the Linux shell is $"compile\_postsyn.sh"$, which allows compiling the $tb$ folder files, the post-synthesis netlist and initialize the simulation. The second one is $"run\_postsyn.do"$, in which a $.vcd$ file is opened and simulation launched for 3\si{\micro\second}.
+\newline
+\newline
+After checking that the waveforms in the wave panel corresponds to those obtained for the first design simulation, the switching-activity-based power estimation has been performed.
+As first step, the $.vcd$ file has been converted to a $.saif$ file and saved in the $saif$ folder. Then, $"power.tcl"$ has been executed inside Synopsys Design Compiler. This script contains a small procedure which reads the $.saif$ file and the post-synthesis netlist and it produces a power report. The name of this output file is set according to the input string parameter that the procedure receives. In this case, it is $"power\_reportfM\_4.txt"$.
+\newline
+\newline
+Various power contributions have been gathered from this report and here are shown:
+
+\begin{itemize}
+\item Cell Internal Power = 337.1294\si{\micro\watt};
+\item Net Switching Power = 230.9812\si{\micro\watt};
+\item Total Dynamic Power = 568.1106\si{\micro\watt};
+\item Cell Leakage Power = 71.0838\si{\micro\watt};
+
+\end{itemize}
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|cccc|}
+Power Groups & Internal Power & Switching Power & Leakage Power & Total Power \\
+io pad & 0.0000 & 0.0000 & 0.0000 & 0.0000 \\
+memory & 0.0000 & 0.0000 & 0.0000 & 0.0000 \\
+black box & 0.0000 & 0.0000 & 0.0000 & 0.0000 \\
+clock network & 0.0000 & 0.0000 & 0.0000 & 0.0000 \\
+register  & 127.5701    &       41.0388       & 1.3869e+04      &    182.4783 \\ 
+sequential & 0.0000 & 0.0000 & 0.0000 & 0.0000 \\ 
+combinational & 209.5592     &     189.9424       & 5.7214e+04 &          456.7157 \\ 
+Total  & 337.1293\si{\micro\watt}     &  230.9812\si{\micro\watt}  &   7.1084e+04\si{\nano\watt}    &   639.1940\si{\micro\watt} \\  
+\end{tabular}
+\end{center}
+\caption{switching-activity-based power report for $\frac{f_{M}}{4}$ IIR gilter design}
+\label{A-lable-for-your-table}
+\end{table}
+
+As regard the Total Power, the main contribution is surely the Total Dynamic Power, which is much greater than the Cell Leakage Power.
+\subsection{Place and Route}% fM/4 verification, area and power consumption with modelsim
+% comments
+During this last phase, the main goal has been to use Cadence Innovus to perform the place and route operations. These steps have been performed in the $innovus$ folder and applied on the IIR Filter netlist derived from the synthesis with clock frequency equal to $\frac{f_{M}}{4}$. Then, a switching-activity-based power estimation has been carried out in a similar way as mentioned in the previous sections, but using Innovus.
+\subsubsection{Place and Route with Cadence Innovus}
+Following the commands elencated in the file $"Documents.pdf"$, Cadence Innovus has been exploited in order to obtain the placed and routed design for the IIR filter. The files $"design.globals"$ and $"mmm\_design.tcl"$ have been copied in a folder called innovus and the program launched from this directory.
+During the execution of the various steps mentioned in the $.pdf$ file, in particular after the route phase, $.slk$ and $.tarpt$ reports concerning Setup and Hold time have been generated. These have been checked in order to verify that no negative slack had been obtained. After that, both connectivity and geometry have been checked and no errors have showed up. In the end, the post place and route verilog netlist ($IIR\_FILTER\_ADVANCED.v$) has been saved along with $IIR\_FILTER\_ADVANCED.sdf$. These last two file have been exploited in the next phase.
+\subsubsection{Post place and route switching-activity-based power consumption estimation}
+This phase goal has been to verify the correct behaviour of the post place and route netlist and to estimate the power consumption based on the information gathered abbout the switching activity. For the first part of this phase ModelSim has been used, and then Cadence Innovus has been exploited for the power consumption calculation. This is very similar to what has been done for the post-synthesis netlist.
+\newline
+\newline
+First of all, a simulation has been carried out using ModelSim by means of scripts created with the indications reported in the file $"Documents.pdf"$. The first one to be run inside the Linux shell has been $"compile\_postroute.sh"$, which allows compiling the tb folder files, the post place and route netlist and initialize the simulation. The second one has been $"run\_postroute.do"$, in which a $.vcd$ file is opened and simulation launched for 3\si{\micro\second}.
+\newline
+\newline
+After checking the corrispondence between the waveforms of the current simulation and the first design simulation ones, the switching-activity-based power estimation has been performed.
+After reopening the innovus design saved in the previous steps, using the created $.vcd$ file, a power report has been produced using Cadence Innovus.
+\newline
+\newline
+Various power contributions have been gathered from this report and here are shown:
+
+\begin{itemize}
+\item Total Internal Power = 0.95788998\si{\micro\watt};
+\item Total Switching Power = 0.71007244\si{\micro\watt};
+\item Total Leakage Power = 0.07131811\si{\micro\watt};
+\item Total Power = 1.73928053\si{\micro\watt};
+\end{itemize}
