@@ -1,7 +1,4 @@
 # Integrated Systems Architecture Labs
 
-Works carried out by those handsome guys:
-## Di Blasi Simone
-## Floridia Stefano
-## Nalcerio Alessio
-
+This git folder contains the laboratories of the course Integrated Sistems Architecture
+of the Electronic Engineering Master Degree at Politecnico di Torino

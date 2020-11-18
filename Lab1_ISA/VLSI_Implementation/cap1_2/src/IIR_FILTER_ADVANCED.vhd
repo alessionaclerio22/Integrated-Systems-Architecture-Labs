@@ -5,17 +5,17 @@ use ieee.std_logic_unsigned.all;
 use work.constants.all;
 
 entity IIR_FILTER_ADVANCED is
-	port (	CLK   : in std_logic;									-- clock signal
-				RST_n : in std_logic;                           	-- reset signal, active low
-				VIN   : in std_logic;                           	-- enable signal for DIN
-				DIN   : in std_logic_vector(NBIT-1 downto 0);   	-- input data on 9 bits
-				A1	  : in std_logic_vector(NBIT-1 downto 0);   	-- coefficient for the IIR Filter
-				A2	  : in std_logic_vector(NBIT-1 downto 0);   	-- coefficient for the IIR Filter
-				B0	  : in std_logic_vector(NBIT-1 downto 0);   	-- coefficient for the IIR Filter
-				B1	  : in std_logic_vector(NBIT-1 downto 0);   	-- coefficient for the IIR Filter
-				B2	  : in std_logic_vector(NBIT-1 downto 0);   	-- coefficient for the IIR Filter
-				VOUT  : out std_logic;                          	-- enable signal for DOUT
-				DOUT  : out std_logic_vector(NBIT-1 downto 0)); 	-- output data on 9 bits
+	port (	CLK   : in std_logic;
+				RST_n : in std_logic;
+				VIN   : in std_logic;
+				DIN   : in std_logic_vector(NBIT-1 downto 0);
+				A1	  : in std_logic_vector(NBIT-1 downto 0);
+				A2	  : in std_logic_vector(NBIT-1 downto 0);
+				B0	  : in std_logic_vector(NBIT-1 downto 0);
+				B1	  : in std_logic_vector(NBIT-1 downto 0);
+				B2	  : in std_logic_vector(NBIT-1 downto 0);
+				VOUT  : out std_logic;
+				DOUT  : out std_logic_vector(NBIT-1 downto 0));
 end IIR_FILTER_ADVANCED;
 
 architecture structural of IIR_FILTER_ADVANCED is
@@ -25,11 +25,11 @@ architecture structural of IIR_FILTER_ADVANCED is
 	signal Vin_delayed_2	: std_logic;							-- 2-clock-cycle-delayed VIN 
 	signal Vin_delayed_3	: std_logic;							-- 3-clock-cycle-delayed VIN 
 	signal Vin_delayed_4	: std_logic;							-- 4-clock-cycle-delayed VIN 
-	signal Din_out_reg		: std_logic_vector(NBIT-1 downto 0);	-- output signal of the input register, that is to say 1-clock-cycle-delayed DIN
-	signal Dout_ext         : std_logic_vector(NBIT-1 downto 0);	-- ouput before the output register
+	signal Din_out_reg		: std_logic_vector(NBIT-1 downto 0);
+	signal Dout_ext         : std_logic_vector(NBIT-1 downto 0);
 	
 	signal sw			 	: shift_registers_vector;				-- shift registers for w[n]
-	signal fb_0			 	: std_logic_vector(NBIT-1 downto 0);	-- feedback network values, to be subtracted by x[n]
+	signal fb_0			 	: std_logic_vector(NBIT-1 downto 0);	-- feed-back network values, to be subtracted by x[n]
 	signal fb_1			 	: std_logic_vector(NBIT-1 downto 0);
 	signal fb_ext_0		 	: std_logic_vector(2*NBIT-1 downto 0);	-- feed-back network values on 2*NBIT
 	signal fb_ext_1		 	: std_logic_vector(2*NBIT-1 downto 0);
@@ -39,8 +39,8 @@ architecture structural of IIR_FILTER_ADVANCED is
 	signal x_1 				: std_logic_vector(NBIT-1 downto 0);	-- x[n-1]
 	signal pipe_a_in_2		: std_logic_vector(NBIT-1 downto 0);	-- input of first set of pipeline registers
 	signal pipe_a_in_3      : std_logic_vector(NBIT-1 downto 0);    -- input of first set of pipeline registers
-	signal pipe_a_in_2_ext  : std_logic_vector(2*NBIT-1 downto 0);  -- extended input of first set of registers (output of multiplier)
-	signal pipe_a_in_3_ext  : std_logic_vector(2*NBIT-1 downto 0);  -- extended input of first set of registers (output of multiplier)
+	signal pipe_a_in_2_ext  : std_logic_vector(2*NBIT-1 downto 0);  -- extended input of first set of registers
+	signal pipe_a_in_3_ext  : std_logic_vector(2*NBIT-1 downto 0);  -- extended input of first set of registers
 	signal pipe_a_0			: std_logic_vector(NBIT-1 downto 0);	-- output of first set of pipeline registers
 	signal pipe_a_1         : std_logic_vector(NBIT-1 downto 0);    -- output of first set of pipeline registers
 	signal pipe_a_2         : std_logic_vector(NBIT-1 downto 0);    -- output of first set of pipeline registers
@@ -131,11 +131,11 @@ begin
 						sw(2)	 <= sw(1);
 						x_1		 <= Din_out_reg;
 						
-						pipe_a_0 <= w;					
-						pipe_a_1 <= x_1;				
-						pipe_a_2 <= pipe_a_in_2;		
-						pipe_a_3 <= pipe_a_in_3;		
-						pipe_a_4 <= sw(1); 				
+						pipe_a_0 <= w;					-- w[1]
+						pipe_a_1 <= x_1;				-- x_1[1]
+						pipe_a_2 <= pipe_a_in_2;		-- (w[n-2]*A1)[1]
+						pipe_a_3 <= pipe_a_in_3;		-- (w[n-3]*A2)[1]
+						pipe_a_4 <= sw(1); 				-- (w[n-2])[1]
 						
 					else
 						Vin_delayed_2 <= '0';
@@ -173,9 +173,9 @@ begin
 					if (Vin_delayed_2 = '1') then
 						Vin_delayed_3 <= '1';
 						
-						pipe_b_0 <= pipe_a_0_outmul;	
-						pipe_b_1 <= outadd_1;			
-						pipe_b_2 <= pipe_a_4_outmul;	
+						pipe_b_0 <= pipe_a_0_outmul;	-- (w[n-1]*B0)[2]
+						pipe_b_1 <= outadd_1;			-- (P*B1)[2]
+						pipe_b_2 <= pipe_a_4_outmul;	-- (w[n-2]*B2)[2]
 					else
 						Vin_delayed_3 <= '0';
 						

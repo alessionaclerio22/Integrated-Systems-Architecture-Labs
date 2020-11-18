@@ -22,7 +22,9 @@ figure
 plot(tt,x1,'--d');
 hold on
 plot(tt,x2,'r--s');
+figure
 plot(tt,x, 'g--+');
+figure
 plot(tt, y, 'c--o');
 
 legend('x1', 'x2', 'x', 'y')
@@ -44,3 +46,4 @@ fclose(fp);
 fp=fopen('resultsm.txt', 'w');
 fprintf(fp, '%d\n', yq);
 fclose(fp);
+
