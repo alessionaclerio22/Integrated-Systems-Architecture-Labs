@@ -1,0 +1,36 @@
+\chapter{Floating Point Multiplier Synthesis}
+\label{chap1}
+
+The main goal of this laboratory is to exploit Synopsys Design Compiler to compare the results obtained by different synthesis performed on the floating point multiplier. This is a pipelined component that is included in the "Floating Point Adder and Multiplier" project, which has been downloaded from Portale della Didattica.
+
+\section{Multiplier Simulation}
+
+First of all, a testbench has been created in order to test the correctness of the multiplier. Hence, the work environment has been organized in three main folders, $src$ containing all the source $.vhd$ files, $tb$ with all testbench-related files and $sim$ for the simulation with $ModelSim$. Then, $sim$ has been subdivided in different subfolders. In order to perform the simulation, $clk\_gen.vhd$, $data\_maker.vhd$ and $tb\_fpmul.v"$ in folder $tb$ have been used. They respectively generate a $10\si{\nano\second}$ clock signal, feed the multiplier with the values provided in $fp\_samples.hex$ and connect the DUT to the testbench. Then, in subfolder $sim\_init$, the script $compile.sh$ has been run in order to compile all needed files. At last, the simulation has been carried out using $ModelSim$ and a $pdf$ file has been generated with the resulting waveforms. The results have been compared with the one in $fp\_prod.hex$ in order to check their correctness.
+\newline
+\newline
+\noindent The same flow has been adopted for the next point of the assignment, where it is asked to add a register to the inputs of the multiplier. After properly modifying $fpmul\_pipeline.vhd$, the previous steps have been followed changing the simulation folder to $sim\_reg$. At last, a $pdf$ file has been created showing the waveforms and the obtained results have been checked against the ones contained in $fp\_prod.hex$.
+
+\section{Synthesis}
+
+Using the floating point pipelined multiplier with the additional registers at the inputs, various synthesis have been carried out. As a matter of fact, the aim of this part of the laboratory is to force Synopsys Design Compiler to use a specific architecture for the behavioural multiplication in $fpmul\_stage2\_struct.vhd$ and compare the different results in terms of maximum frequency and area.
+In order to do this, a folder called $syn$ has been created. As requested by the assignment, three synthesis have been performed respectively asking to:
+
+\begin{itemize}
+\item force Synopsys Design Compiler to flatten the hierarchy;
+\item force Synopsys Design Compiler to flatten the hierarchy and implement the multiplier in Stage2 as a CSA multiplier;
+\item force Synopsys Design Compiler to flatten the hierarchy and implement the multiplier in Stage2 as a PPARCH multiplier.
+\end{itemize}
+
+\noindent In order to fulfill these requirements, the subfolders $syn\_first$, $syn\_CSA$ and $syn\_PPARCH$ have been created inside $syn$, each related to the correspondent synthesis. Three similar $tcl$ scripts have been exploited to speed up the Synopsys Design Compiler flow, $syn\_first.tcl$, $syn\_CSA.tcl$ and $syn\_PPARCH.tcl$. They all contain the same commands in order to set up the synthesis and to flatten the hierarchy ($ungroup  -all -unflatten$). However, $syn_CSA.tcl$ and $syn\_PPARCH.tcl$ force an implementation with the command $set\_implementation$, while $syn\_first.tcl$ does not.
+In order to obtain the maximum frequency, an iterative approach has been adopted setting the clock to $0\si{\nano\second}$ as first step and then adding the retrieved slack until $report\_timing$ gives a null slack. Three files have been generated for each synthesis containing the outcome of the commands $report\_resources$, $report\_area$ and $report\_timing$. The obtained values have been summarized in Table.
+
+
+\section{Fine-grain Pipelining and Optimization}
+
+In this part of the laboratory, it is asked to modify the Stage2 structure by adding a register at the output of the significand multliplier and all the required ones to preserve the right pipeline behaviour. In order to do this, a file called $fpmul\_stage2\_struct\_modified.vhd$ has been created. It contains the Stage2 architecture modified as requested by the assignment. It has been simulated using the same testbench files mentioned before, changing the simulation environment to folder $sim\_modified$. In this folder, the script $compile.sh$ has been used to compile the needed files, this time substituting $fpmul\_stage2\_struct.vhd$ with $fpmul\_stage2\_struct\_modified.vhd$. A $pdf$ file has been generated to check the correctness of the waveforms and the results have been compared to the ones in $fp\_prod.hex$.
+\newline
+\newline
+\noindent Using the modified structure for the floating point multiplier, two additional synthesis have been carried out. The $syn$ subfolders $syn\_modified$ and $syn\_modified\_ultra$ have been used for this purpose. The main goal of this part is to investigate the results obtained by the commands $optimize\_registers$ after $compile$ and $compile\_ultra$ instead of the combination of the previous two. The synthesis have been perfomed using $tcl$ scripts issuing the above mentioned operations. An iterative approach has been adopted in order to obtain the maximum frequency, as described in the previous section. Moreover, $report\_area$ and $report\_timing$ have been generated in each subfolder. The results concerning maximum frequency and area are summarized in Table.
+
+
+

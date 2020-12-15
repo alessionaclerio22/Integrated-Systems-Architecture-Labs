@@ -1,0 +1,159 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : FPmul
+Version: O-2018.06-SP4
+Date   : Tue Dec  8 18:35:45 2020
+****************************************
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: I1/B_SIG_reg[3]
+              (rising edge-triggered flip-flop clocked by MY_CLK)
+  Endpoint: I2/SIG_in_reg[27]
+            (rising edge-triggered flip-flop clocked by MY_CLK)
+  Path Group: MY_CLK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  FPmul              5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock MY_CLK (rise edge)                                0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  I1/B_SIG_reg[3]/CK (DFF_X1)                             0.00       0.00 r
+  I1/B_SIG_reg[3]/Q (DFF_X1)                              0.13       0.13 r
+  I1/B_SIG[3] (FPmul_stage1)                              0.00       0.13 r
+  I2/B_SIG[3] (FPmul_stage2)                              0.00       0.13 r
+  I2/MBE_mul/b[3] (Dadda_Multiplier)                      0.00       0.13 r
+  I2/MBE_mul/MBE_i_3/b_triplet[0] (MBE_recoder_14)        0.00       0.13 r
+  I2/MBE_mul/MBE_i_3/U84/ZN (INV_X1)                      0.04       0.17 f
+  I2/MBE_mul/MBE_i_3/U6/ZN (NAND2_X1)                     0.03       0.20 r
+  I2/MBE_mul/MBE_i_3/U8/ZN (NAND2_X1)                     0.02       0.22 f
+  I2/MBE_mul/MBE_i_3/U118/ZN (NOR2_X1)                    0.05       0.27 r
+  I2/MBE_mul/MBE_i_3/U2/Z (BUF_X1)                        0.05       0.32 r
+  I2/MBE_mul/MBE_i_3/U121/ZN (AOI211_X1)                  0.04       0.36 f
+  I2/MBE_mul/MBE_i_3/U126/ZN (AOI22_X1)                   0.07       0.42 r
+  I2/MBE_mul/MBE_i_3/U116/ZN (NAND2_X1)                   0.04       0.46 f
+  I2/MBE_mul/MBE_i_3/rec_out[2] (MBE_recoder_14)          0.00       0.46 f
+  I2/MBE_mul/D_tree/pp[2][2] (Dadda_Tree)                 0.00       0.46 f
+  I2/MBE_mul/D_tree/fa_gen_2_6_0/B (FA_116)               0.00       0.46 f
+  I2/MBE_mul/D_tree/fa_gen_2_6_0/U4/Z (XOR2_X1)           0.08       0.54 f
+  I2/MBE_mul/D_tree/fa_gen_2_6_0/U3/Z (XOR2_X1)           0.08       0.62 f
+  I2/MBE_mul/D_tree/fa_gen_2_6_0/S (FA_116)               0.00       0.62 f
+  I2/MBE_mul/D_tree/fa_gen_1_6_0/A (FA_58)                0.00       0.62 f
+  I2/MBE_mul/D_tree/fa_gen_1_6_0/U4/Z (XOR2_X1)           0.08       0.69 f
+  I2/MBE_mul/D_tree/fa_gen_1_6_0/U3/Z (XOR2_X1)           0.07       0.77 f
+  I2/MBE_mul/D_tree/fa_gen_1_6_0/S (FA_58)                0.00       0.77 f
+  I2/MBE_mul/D_tree/sum_out[6] (Dadda_Tree)               0.00       0.77 f
+  I2/MBE_mul/add_112/A[6] (Dadda_Multiplier_DW01_add_0)
+                                                          0.00       0.77 f
+  I2/MBE_mul/add_112/U269/ZN (OAI21_X1)                   0.05       0.82 r
+  I2/MBE_mul/add_112/U268/ZN (OAI21_X1)                   0.04       0.86 f
+  I2/MBE_mul/add_112/U265/ZN (OAI21_X1)                   0.04       0.90 r
+  I2/MBE_mul/add_112/U264/ZN (OAI21_X1)                   0.04       0.94 f
+  I2/MBE_mul/add_112/U261/ZN (OAI21_X1)                   0.04       0.98 r
+  I2/MBE_mul/add_112/U260/ZN (OAI21_X1)                   0.04       1.02 f
+  I2/MBE_mul/add_112/U257/ZN (OAI21_X1)                   0.04       1.06 r
+  I2/MBE_mul/add_112/U256/ZN (OAI21_X1)                   0.04       1.10 f
+  I2/MBE_mul/add_112/U253/ZN (OAI21_X1)                   0.04       1.14 r
+  I2/MBE_mul/add_112/U252/ZN (OAI21_X1)                   0.04       1.18 f
+  I2/MBE_mul/add_112/U249/ZN (OAI21_X1)                   0.04       1.22 r
+  I2/MBE_mul/add_112/U248/ZN (OAI21_X1)                   0.04       1.26 f
+  I2/MBE_mul/add_112/U247/ZN (OAI21_X1)                   0.05       1.31 r
+  I2/MBE_mul/add_112/U77/ZN (NAND2_X1)                    0.04       1.34 f
+  I2/MBE_mul/add_112/U246/ZN (OAI21_X1)                   0.05       1.39 r
+  I2/MBE_mul/add_112/U84/ZN (NAND2_X1)                    0.03       1.43 f
+  I2/MBE_mul/add_112/U244/ZN (OAI21_X1)                   0.04       1.47 r
+  I2/MBE_mul/add_112/U119/ZN (NAND2_X1)                   0.03       1.50 f
+  I2/MBE_mul/add_112/U242/ZN (OAI21_X1)                   0.04       1.53 r
+  I2/MBE_mul/add_112/U117/ZN (NAND2_X1)                   0.03       1.57 f
+  I2/MBE_mul/add_112/U241/ZN (OAI21_X1)                   0.04       1.61 r
+  I2/MBE_mul/add_112/U121/ZN (NAND2_X1)                   0.03       1.64 f
+  I2/MBE_mul/add_112/U239/ZN (OAI21_X1)                   0.04       1.68 r
+  I2/MBE_mul/add_112/U238/ZN (OAI21_X1)                   0.04       1.72 f
+  I2/MBE_mul/add_112/U237/ZN (OAI21_X1)                   0.05       1.77 r
+  I2/MBE_mul/add_112/U2/ZN (NAND2_X1)                     0.03       1.80 f
+  I2/MBE_mul/add_112/U235/ZN (OAI21_X1)                   0.04       1.84 r
+  I2/MBE_mul/add_112/U52/ZN (NAND2_X1)                    0.04       1.88 f
+  I2/MBE_mul/add_112/U71/ZN (NAND2_X1)                    0.04       1.91 r
+  I2/MBE_mul/add_112/U73/ZN (NAND3_X1)                    0.04       1.96 f
+  I2/MBE_mul/add_112/U112/ZN (NAND2_X1)                   0.03       1.99 r
+  I2/MBE_mul/add_112/U114/ZN (NAND3_X1)                   0.05       2.03 f
+  I2/MBE_mul/add_112/U226/ZN (NAND2_X1)                   0.04       2.08 r
+  I2/MBE_mul/add_112/U27/ZN (NAND3_X1)                    0.04       2.11 f
+  I2/MBE_mul/add_112/U231/ZN (NAND2_X1)                   0.03       2.15 r
+  I2/MBE_mul/add_112/U42/ZN (NAND3_X1)                    0.04       2.19 f
+  I2/MBE_mul/add_112/U168/ZN (NAND2_X1)                   0.04       2.22 r
+  I2/MBE_mul/add_112/U5/ZN (NAND3_X1)                     0.04       2.26 f
+  I2/MBE_mul/add_112/U131/ZN (NAND2_X1)                   0.04       2.30 r
+  I2/MBE_mul/add_112/U80/ZN (NAND3_X1)                    0.04       2.34 f
+  I2/MBE_mul/add_112/U99/ZN (NAND2_X1)                    0.04       2.38 r
+  I2/MBE_mul/add_112/U75/ZN (NAND3_X1)                    0.04       2.42 f
+  I2/MBE_mul/add_112/U147/ZN (NAND2_X1)                   0.04       2.46 r
+  I2/MBE_mul/add_112/U150/ZN (NAND3_X1)                   0.04       2.49 f
+  I2/MBE_mul/add_112/U154/ZN (NAND2_X1)                   0.03       2.53 r
+  I2/MBE_mul/add_112/U156/ZN (NAND3_X1)                   0.04       2.57 f
+  I2/MBE_mul/add_112/U64/ZN (NAND2_X1)                    0.03       2.60 r
+  I2/MBE_mul/add_112/U66/ZN (NAND3_X1)                    0.04       2.64 f
+  I2/MBE_mul/add_112/U9/ZN (NAND2_X1)                     0.04       2.68 r
+  I2/MBE_mul/add_112/U11/ZN (NAND3_X1)                    0.05       2.72 f
+  I2/MBE_mul/add_112/U106/ZN (NAND2_X1)                   0.04       2.77 r
+  I2/MBE_mul/add_112/U108/ZN (NAND3_X1)                   0.04       2.80 f
+  I2/MBE_mul/add_112/U174/ZN (NAND2_X1)                   0.03       2.84 r
+  I2/MBE_mul/add_112/U176/ZN (NAND3_X1)                   0.04       2.88 f
+  I2/MBE_mul/add_112/U194/ZN (NAND2_X1)                   0.03       2.91 r
+  I2/MBE_mul/add_112/U196/ZN (NAND3_X1)                   0.04       2.95 f
+  I2/MBE_mul/add_112/U36/ZN (NAND2_X1)                    0.04       2.99 r
+  I2/MBE_mul/add_112/U39/ZN (NAND3_X1)                    0.04       3.03 f
+  I2/MBE_mul/add_112/U214/ZN (NAND2_X1)                   0.04       3.07 r
+  I2/MBE_mul/add_112/U216/ZN (NAND3_X1)                   0.04       3.10 f
+  I2/MBE_mul/add_112/U220/ZN (NAND2_X1)                   0.04       3.14 r
+  I2/MBE_mul/add_112/U40/ZN (NAND3_X1)                    0.04       3.18 f
+  I2/MBE_mul/add_112/U93/ZN (NAND2_X1)                    0.03       3.21 r
+  I2/MBE_mul/add_112/U74/ZN (NAND3_X1)                    0.04       3.25 f
+  I2/MBE_mul/add_112/U140/ZN (NAND2_X1)                   0.04       3.29 r
+  I2/MBE_mul/add_112/U43/ZN (NAND3_X1)                    0.04       3.33 f
+  I2/MBE_mul/add_112/U125/ZN (NAND2_X1)                   0.03       3.36 r
+  I2/MBE_mul/add_112/U128/ZN (NAND3_X1)                   0.04       3.40 f
+  I2/MBE_mul/add_112/U87/ZN (NAND2_X1)                    0.03       3.43 r
+  I2/MBE_mul/add_112/U90/ZN (NAND3_X1)                    0.04       3.48 f
+  I2/MBE_mul/add_112/U31/ZN (NAND2_X1)                    0.04       3.52 r
+  I2/MBE_mul/add_112/U33/ZN (NAND3_X1)                    0.04       3.56 f
+  I2/MBE_mul/add_112/U161/ZN (NAND2_X1)                   0.04       3.59 r
+  I2/MBE_mul/add_112/U163/ZN (NAND3_X1)                   0.04       3.63 f
+  I2/MBE_mul/add_112/U184/ZN (NAND2_X1)                   0.04       3.67 r
+  I2/MBE_mul/add_112/U178/ZN (NAND3_X1)                   0.04       3.71 f
+  I2/MBE_mul/add_112/U189/ZN (NAND2_X1)                   0.04       3.75 r
+  I2/MBE_mul/add_112/U23/ZN (NAND3_X1)                    0.04       3.79 f
+  I2/MBE_mul/add_112/U200/ZN (NAND2_X1)                   0.03       3.82 r
+  I2/MBE_mul/add_112/U202/ZN (NAND3_X1)                   0.04       3.86 f
+  I2/MBE_mul/add_112/U207/ZN (NAND2_X1)                   0.03       3.89 r
+  I2/MBE_mul/add_112/U208/ZN (NAND3_X1)                   0.03       3.93 f
+  I2/MBE_mul/add_112/U136/ZN (XNOR2_X1)                   0.05       3.98 f
+  I2/MBE_mul/add_112/SUM[47] (Dadda_Multiplier_DW01_add_0)
+                                                          0.00       3.98 f
+  I2/MBE_mul/m[47] (Dadda_Multiplier)                     0.00       3.98 f
+  I2/SIG_in_reg[27]/D (DFF_X1)                            0.01       3.99 f
+  data arrival time                                                  3.99
+
+  clock MY_CLK (rise edge)                                4.10       4.10
+  clock network delay (ideal)                             0.00       4.10
+  clock uncertainty                                      -0.07       4.03
+  I2/SIG_in_reg[27]/CK (DFF_X1)                           0.00       4.03 r
+  library setup time                                     -0.04       3.99
+  data required time                                                 3.99
+  --------------------------------------------------------------------------
+  data required time                                                 3.99
+  data arrival time                                                 -3.99
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+1
