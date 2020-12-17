@@ -1,37 +1,37 @@
 \chapter{Documents}
 \label{appendix1}
 
-The folders organization are the following:\\
+The folders organization is the following:\\
 \begin{itemize}
     \item MBE\_Multiplier
     \begin{itemize}
         \item sim (Simulation files)
          \begin{itemize}
-            \item compile 
+            \item compile.sh
             \item sim\_MBE.pdf
             \item sim\_MBE.ps
         \end{itemize}
         \item src (VHD files)
          \begin{itemize}
-            \item A\_gen
-            \item Dadda\_Multiplier
-            \item Dadda\_Tree
-            \item FA
-            \item HA
-            \item MBE\_recoder
-            \item Sign\_Ext
-            \item types
+            \item A\_gen.vhd
+            \item Dadda\_Multiplier.vhd
+            \item Dadda\_Tree.vhd
+            \item FA.vhd
+            \item HA.vhd
+            \item MBE\_recoder.vhd
+            \item Sign\_Ext.vhd
+            \item types.vhd
         \end{itemize}
         \item tb (Test-bench files)
          \begin{itemize}
-            \item tb\_Dadda\_Mul 
+            \item tb\_Dadda\_Mul .vhd
         \end{itemize}
     \end{itemize}
     \item sim (Simulation Files)
     \begin{itemize}
         \item sim\_init
          \begin{itemize}
-            \item compile
+            \item compile.sh
             \item fp\_prod.hex
             \item fp\_samples.hex
             \item sim\_first.pdf
@@ -39,7 +39,7 @@ The folders organization are the following:\\
         \end{itemize}
         \item sim\_MBE
          \begin{itemize}
-            \item compile
+            \item compile.sh
             \item fp\_prod.hex
             \item fp\_samples.hex
             \item sim\_MBE.pdf
@@ -47,7 +47,7 @@ The folders organization are the following:\\
         \end{itemize}
         \item sim\_modified
          \begin{itemize}
-            \item compile
+            \item compile.sh
             \item fp\_prod.hex
             \item fp\_samples.hex
             \item sim\_modified.pdf
@@ -55,7 +55,7 @@ The folders organization are the following:\\
         \end{itemize}
         \item sim\_reg
          \begin{itemize}
-            \item compile
+            \item compile.sh
             \item fp\_prod.hex
             \item fp\_samples.hex
             \item sim\_reg.pdf
@@ -64,68 +64,78 @@ The folders organization are the following:\\
     \end{itemize}
     \item src (VHD files)
         \begin{itemize}
-            \item fpmul\_pipeline
-            \item fpmul\_pipeline\_first
-            \item fpmul\_single\_cycle
-            \item fpmul\_stage1\_struct
-            \item fpmul\_stage2\_struct
-            \item fpmul\_stage2\_struct\_MBE
-            \item fpmul\_stage2\_struct\_modified
-            \item fpmul\_stage3\_struct
-            \item fpmul\_stage4\_struct
-            \item fpnormalize\_fpnormalize
-            \item fpround\_fpround
-            \item packfp\_packfp
-            \item unpackfp\_unpackfp
+            \item fpmul\_pipeline.vhd
+            \item fpmul\_pipeline\_first.vhd
+            \item fpmul\_single\_cycle.vhd
+            \item fpmul\_stage1\_struct.vhd
+            \item fpmul\_stage2\_struct.vhd
+            \item fpmul\_stage2\_struct\_MBE.vhd
+            \item fpmul\_stage2\_struct\_modified.vhd
+            \item fpmul\_stage3\_struct.vhd
+            \item fpmul\_stage4\_struct.vhd
+            \item fpnormalize\_fpnormalize.vhd
+            \item fpround\_fpround.vhd
+            \item packfp\_packfp.vhd
+            \item unpackfp\_unpackfp.vhd
         \end{itemize}
     \item syn (Synthesis Files)
     \begin{itemize}
         \item syn\_csa
          \begin{itemize}
-            \item report\_area\_CSA
-            \item report\_timing\_CSA
-            \item report\_res\_CSA
-            \item syn\_CSA
+            \item report\_area\_CSA.txt
+            \item report\_timing\_CSA.txt
+            \item report\_res\_CSA.txt
+            \item syn\_CSA.tcl
         \end{itemize}
         \item syn\_first
          \begin{itemize}
-            \item report\_area\_first
-            \item report\_timing\_first
-            \item syn\_first
+            \item report\_area\_first.txt
+            \item report\_timing\_first.txt
+            \item report\_res\_first.txt
+            \item syn\_first.tcl
         \end{itemize}
         \item syn\_MBE
          \begin{itemize}
-            \item report\_area\_MBE
-            \item report\_timing\_MBE
-            \item report\_res\_MBE
-            \item syn\_MBE
+            \item report\_area\_MBE.txt
+            \item report\_timing\_MBE.txt
+            \item report\_res\_MBE.txt
+            \item syn\_MBE.tcl
         \end{itemize}
         \item syn\_modified
          \begin{itemize}
-            \item report\_area\_modified
-            \item report\_timing\_modified
-            \item report\_res\_modified
-            \item syn\_modified
+            \item report\_area\_modified.txt
+            \item report\_timing\_modified.txt
+            \item report\_res\_modified.txt
+            \item syn\_modified.tcl
         \end{itemize}
         \item syn\_modified\_ultra
          \begin{itemize}
-            \item report\_area\_modified\_ultra
-            \item report\_timing\_modified\_ultra
-            \item report\_res\_modified\_ultra
-            \item syn\_modified\_ultra
+            \item report\_area\_modified\_ultra.txt
+            \item report\_timing\_modified\_ultra.txt
+            \item report\_res\_modified\_ultra.txt
+            \item syn\_modified\_ultra.tcl
         \end{itemize}
         \item syn\_PPARCH
          \begin{itemize}
-            \item report\_area\_PPARCH
-            \item report\_timing\_PPARCH
-            \item report\_res\_PPARCH
-            \item syn\_modified\_PPARCH
+            \item report\_area\_PPARCH.txt
+            \item report\_timing\_PPARCH.txt
+            \item report\_res\_PPARCH.txt
+            \item syn\_modified\_PPARCH.tcl
         \end{itemize}
     \end{itemize}
     \item tb (Test-bench files)
          \begin{itemize}
-            \item clk\_gen
-            \item data\_maker
-            \item tb\_fpmul
-        \end{itemize}    
+            \item clk\_gen.vhd
+            \item data\_maker.vhd
+            \item tb\_fpmul.vhd
+        \end{itemize}  
+    \item report (Report-related files)
+    	\begin{itemize}
+    		\item homebook.tex
+    		\item chap1.tex
+    		\item chap2.tex
+    		\item appendix.tex
+    		\item img(images folder)
+    		\item lab02\_group34.pdf
+		\end{itemize}    	  
 \end{itemize}
