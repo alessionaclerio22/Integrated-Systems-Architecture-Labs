@@ -1,0 +1,71 @@
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : RISC_V
+Version: O-2018.06-SP4
+Date   : Fri Feb 19 23:17:16 2021
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: typical   Library: NangateOpenCellLibrary
+Wire Load Model Mode: top
+
+  Startpoint: RST (input port clocked by MY_CLK)
+  Endpoint: BRANCH_TARGET_BUFFER/TWO_BIT_PREDICTOR_reg[0][0]
+            (rising edge-triggered flip-flop clocked by MY_CLK)
+  Path Group: MY_CLK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  RISC_V             5K_hvratio_1_1        NangateOpenCellLibrary
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock MY_CLK (rise edge)                                0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  input external delay                                    0.50       0.50 f
+  RST (in)                                                0.00       0.50 f
+  U592/ZN (INV_X2)                                        0.07       0.57 r
+  U605/ZN (NAND2_X1)                                      0.04       0.61 f
+  U589/ZN (OR4_X1)                                        0.10       0.71 f
+  U588/ZN (INV_X2)                                        0.13       0.84 r
+  U1688/ZN (AOI22_X1)                                     0.07       0.91 f
+  U740/ZN (INV_X1)                                        0.04       0.95 r
+  U650/ZN (XNOR2_X1)                                      0.06       1.00 r
+  U737/ZN (NAND2_X1)                                      0.03       1.03 f
+  U897/ZN (NOR4_X1)                                       0.08       1.12 r
+  U785/ZN (AND4_X1)                                       0.07       1.18 r
+  U908/ZN (AND2_X2)                                       0.05       1.24 r
+  U911/ZN (AND2_X2)                                       0.06       1.29 r
+  BRANCH_TARGET_BUFFER/PRED_T_T (BTB)                     0.00       1.29 r
+  BRANCH_TARGET_BUFFER/U323/ZN (NAND2_X1)                 0.03       1.32 f
+  BRANCH_TARGET_BUFFER/U325/ZN (NAND3_X1)                 0.03       1.35 r
+  BRANCH_TARGET_BUFFER/U326/ZN (OAI211_X1)                0.06       1.42 f
+  BRANCH_TARGET_BUFFER/U2626/Z (BUF_X2)                   0.07       1.49 f
+  BRANCH_TARGET_BUFFER/U2655/ZN (NOR3_X1)                 0.10       1.59 r
+  BRANCH_TARGET_BUFFER/U2656/ZN (INV_X1)                  0.03       1.62 f
+  BRANCH_TARGET_BUFFER/U2657/Z (MUX2_X1)                  0.06       1.68 f
+  BRANCH_TARGET_BUFFER/TWO_BIT_PREDICTOR_reg[0][0]/D (DFFR_X1)
+                                                          0.01       1.69 f
+  data arrival time                                                  1.69
+
+  clock MY_CLK (rise edge)                                1.80       1.80
+  clock network delay (ideal)                             0.00       1.80
+  clock uncertainty                                      -0.07       1.73
+  BRANCH_TARGET_BUFFER/TWO_BIT_PREDICTOR_reg[0][0]/CK (DFFR_X1)
+                                                          0.00       1.73 r
+  library setup time                                     -0.04       1.69
+  data required time                                                 1.69
+  --------------------------------------------------------------------------
+  data required time                                                 1.69
+  data arrival time                                                 -1.69
+  --------------------------------------------------------------------------
+  slack (MET)                                                        0.00
+
+
+1
