@@ -1,0 +1,14 @@
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :  207
+# UVM_WARNING :  101
+# UVM_ERROR :    1
+# UVM_FATAL :    0
+# ** Report counts by id
+# [Comparator Mismatch]   101
+# [MISCMP]   202
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [env]     2
